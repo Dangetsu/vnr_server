@@ -17,7 +17,7 @@ class BaseController extends ActiveController {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBasicAuth::className(),
-            'except' => ['index', 'view'],
+            'only' => ['me'],
             'auth' => function ($username, $password) {
                 return User::findOne([
                     'name' => $username,
