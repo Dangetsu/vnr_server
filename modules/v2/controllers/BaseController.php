@@ -10,7 +10,9 @@ use yii\rest\ActiveController;
 use app\modules\v2\models\User;
 
 class BaseController extends ActiveController {
-
+    /**
+     * @return array
+     */
     public function behaviors() {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
