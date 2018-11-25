@@ -10,8 +10,7 @@ use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface {
 
-    public function rules()
-    {
+    public function rules() {
         return [
             [['name', 'password'], 'required'],
             ['email', 'email'],
@@ -21,8 +20,7 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    public function fields()
-    {
+    public function fields() {
         $fields = parent::fields();
         unset($fields['password']);
         return $fields;
@@ -31,8 +29,7 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
-    {
+    public static function findIdentity($id) {
         return self::findOne([
             'id' => $id,
         ]);
@@ -41,32 +38,28 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
+    public static function findIdentityByAccessToken($token, $type = null) {
         return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAuthKey()
-    {
+    public function getAuthKey() {
         return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validateAuthKey($authKey)
-    {
+    public function validateAuthKey($authKey) {
         return false;
     }
 }

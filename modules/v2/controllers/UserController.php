@@ -10,8 +10,7 @@ use app\modules\v2\models\User;
 class UserController extends BaseController {
     public $modelClass = 'app\modules\v2\models\User';
 
-    public function actions()
-    {
+    public function actions() {
         $actions = parent::actions();
         unset( $actions['delete']);
         return $actions;
