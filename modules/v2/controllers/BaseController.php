@@ -15,21 +15,15 @@ class BaseController extends ActiveController {
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator']['class'] = HttpBasicAuth::className();
-        $behaviors['authenticator']['auth'] = function ($username, $password) {
-            return User::findOne([
-                'name' => $username,
-                'password' => $password,
-            ]);
-        };
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
+        $behaviors['authenticator'] = [
+            'class' => HttpBasicAuth::className(),
+            'except' => ['index', 'view'],
+            'auth' => function ($username, $password) {
+                return User::findOne([
+                    'name' => $username,
+                    'password' => $password,
+                ]);
+            },
         ];
         return $behaviors;
     }

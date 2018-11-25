@@ -5,8 +5,7 @@
 
 namespace app\modules\v2\controllers;
 
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\AccessControl;
+use app\modules\v2\models\User;
 
 class UserController extends BaseController {
     public $modelClass = 'app\modules\v2\models\User';
@@ -16,5 +15,9 @@ class UserController extends BaseController {
         $actions = parent::actions();
         unset( $actions['delete']);
         return $actions;
+    }
+
+    public function actionMe() {
+        return User::findIdentity(\Yii::$app->user->getId());
     }
 }
