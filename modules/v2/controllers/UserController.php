@@ -62,7 +62,7 @@ class UserController extends BaseController {
         $model->load($params, '');
         $isSave = $model->save();
         if ($isSave === false && !$model->hasErrors()) {
-            throw new \yii\web\ServerErrorHttpException('Failed to update the object for unknown reason.');
+            throw new \yii\web\ServerErrorHttpException('Failed to save the object for unknown reason.');
         }
     }
 }
