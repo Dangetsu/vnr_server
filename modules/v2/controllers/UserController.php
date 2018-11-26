@@ -38,20 +38,6 @@ class UserController extends BaseController {
     }
 
     /**
-     * @param string $action
-     * @param Model $model
-     * @param array $params
-     * @throws ForbiddenHttpException
-     */
-    public function checkAccess($action, $model = null, $params = []) {
-        if ($action === 'update' && \Yii::$app->user->getId() !== $model->id) {
-            throw new ForbiddenHttpException('fuck!');
-        }
-
-
-    }
-
-    /**
      * @param User $model
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
