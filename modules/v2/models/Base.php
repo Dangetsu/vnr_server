@@ -8,6 +8,11 @@ namespace app\modules\v2\models;
 use yii\db;
 
 abstract class Base extends db\ActiveRecord {
+    /**
+     * @param array $fields
+     * @param string $separator
+     * @return array
+     */
     protected function _convertFieldsToCamelFormat(array $fields, $separator = '_') {
         $result = [];
         foreach ($fields as $key => $value) {
