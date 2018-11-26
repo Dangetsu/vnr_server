@@ -24,10 +24,18 @@ class BaseController extends ActiveController {
             'auth' => function ($username, $password) {
                 return User::findOne([
                     'name' => $username,
-                    'password' => $password,
+                    'password' => $this->_generatePasswordHash($password),
                 ]);
             },
         ];
         return $behaviors;
+    }
+
+    /**
+     * @param string $password
+     * @return string
+     */
+    protected function _generatePasswordHash($password) {
+        return md5(md5($password));
     }
 }
