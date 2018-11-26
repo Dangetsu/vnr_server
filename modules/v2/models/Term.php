@@ -22,11 +22,6 @@ class Term extends Base {
      * @return array
      */
     public function fields() {
-        $fields = parent::fields();
-        $newFields = [];
-        foreach ($fields as $key => $value) {
-            $newFields[$this->_convertToCamelFormat($key)] = $value;
-        }
-        return $newFields;
+        return $this->_convertFieldsToCamelFormat(parent::fields());
     }
 }
