@@ -10,7 +10,7 @@ use yii\rest;
 use app\modules\v2\models;
 use yii\db;
 
-class BaseController extends rest\ActiveController {
+abstract class BaseController extends rest\ActiveController {
 
     const PUT_METHOD = 'PUT';
 

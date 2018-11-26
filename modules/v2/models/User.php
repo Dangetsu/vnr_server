@@ -5,10 +5,9 @@
 
 namespace app\modules\v2\models;
 
-use yii\db;
 use yii\web;
 
-class User extends db\ActiveRecord implements web\IdentityInterface {
+class User extends Base implements web\IdentityInterface {
     /**
      * @return array
      */
