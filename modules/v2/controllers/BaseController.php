@@ -5,11 +5,12 @@
 
 namespace app\modules\v2\controllers;
 
-use yii\filters\auth\HttpBasicAuth;
-use yii\rest\ActiveController;
-use app\modules\v2\models\User;
+use yii\filters\auth;
+use yii\rest;
+use app\modules\v2\models;
+use yii\db;
 
-class BaseController extends ActiveController {
+class BaseController extends rest\ActiveController {
 
     const PUT_METHOD = 'PUT';
 
@@ -19,10 +20,10 @@ class BaseController extends ActiveController {
     public function behaviors() {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
+            'class' => auth\HttpBasicAuth::className(),
             'only' => ['me'],
             'auth' => function ($username, $password) {
-                return User::findOne([
+                return models\User::findOne([
                     'name' => $username,
                     'password' => $this->_generatePasswordHash($password),
                 ]);
@@ -37,5 +38,22 @@ class BaseController extends ActiveController {
      */
     protected function _generatePasswordHash($password) {
         return md5(md5($password));
+    }
+
+    /**
+     * @param db\ActiveRecord $model
+     * @param array $params
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\ServerErrorHttpException
+     */
+    protected function _saveModel(db\ActiveRecord $model, array $params = []) {
+        if (count($params) === 0) {
+            $params = \Yii::$app->getRequest()->getBodyParams();
+        }
+        $model->load($params, '');
+        $isSave = $model->save();
+        if ($isSave === false && !$model->hasErrors()) {
+            throw new \yii\web\ServerErrorHttpException('Failed to save the object for unknown reason.');
+        }
     }
 }

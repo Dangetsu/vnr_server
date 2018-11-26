@@ -5,8 +5,7 @@
 
 namespace app\modules\v2\controllers;
 
-use app\modules\v2\models\User;
-use yii\db\ActiveRecord;
+use app\modules\v2\models;
 
 class UserController extends BaseController {
     /**
@@ -24,12 +23,12 @@ class UserController extends BaseController {
     }
 
     /**
-     * @return User
+     * @return models\User
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
      */
     public function actionMe() {
-        $model = User::findIdentity(\Yii::$app->user->getId());
+        $model = models\User::findIdentity(\Yii::$app->user->getId());
         if (\Yii::$app->getRequest()->getMethod() === self::PUT_METHOD) {
             $this->_saveModel($model);
         }
@@ -37,32 +36,15 @@ class UserController extends BaseController {
     }
 
     /**
-     * @return ActiveRecord
+     * @return \yii\db\ActiveRecord
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
      */
     public function actionCreate() {
-        $model = new User();
+        $model = new models\User();
         $params = \Yii::$app->getRequest()->getBodyParams();
         $params['password'] = $this->_generatePasswordHash($params['password']);
         $this->_saveModel($model, $params);
         return $model;
-    }
-
-    /**
-     * @param ActiveRecord $model
-     * @param array $params
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\ServerErrorHttpException
-     */
-    private function _saveModel(ActiveRecord $model, array $params = []) {
-        if (count($params) === 0) {
-            $params = \Yii::$app->getRequest()->getBodyParams();
-        }
-        $model->load($params, '');
-        $isSave = $model->save();
-        if ($isSave === false && !$model->hasErrors()) {
-            throw new \yii\web\ServerErrorHttpException('Failed to save the object for unknown reason.');
-        }
     }
 }
