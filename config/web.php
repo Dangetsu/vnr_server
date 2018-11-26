@@ -68,7 +68,7 @@ $config = [
                 'collapseSlashes' => true,
             ],
             'rules' => [
-                'GET v2/users/me' => 'v2/user/me',
+                'GET,PUT v2/users/me' => 'v2/user/me',
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v2/user'],
             ],

@@ -16,9 +16,8 @@ class User extends ActiveRecord implements IdentityInterface {
         return [
             [['name', 'password'], 'required'],
             ['email', 'email'],
-            [['name', 'password', 'photo', 'gender', 'language', 'homepage', 'color'], 'string'],
+            [['name', 'password', 'photo', 'gender', 'language', 'homepage', 'color', 'last_date', 'reg_date'], 'string'],
             ['is_banned', 'boolean'],
-            [['last_date', 'reg_date'], 'date', 'format' => 'Y-m-d H:i:s'],
         ];
     }
 

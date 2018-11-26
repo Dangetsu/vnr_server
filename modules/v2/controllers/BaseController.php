@@ -10,6 +10,9 @@ use yii\rest\ActiveController;
 use app\modules\v2\models\User;
 
 class BaseController extends ActiveController {
+
+    const PUT_METHOD = 'PUT';
+
     /**
      * @return array
      */
