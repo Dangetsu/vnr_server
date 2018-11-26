@@ -21,7 +21,7 @@ abstract class BaseController extends rest\ActiveController {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => auth\HttpBasicAuth::className(),
-            'only' => ['me'],
+            'only' => [],
             'auth' => function ($username, $password) {
                 return models\User::findOne([
                     'name' => $username,
