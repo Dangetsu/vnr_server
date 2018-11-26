@@ -64,6 +64,7 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     /**
+     * @param string $authKey
      * @return bool
      */
     public function validateAuthKey($authKey) {
