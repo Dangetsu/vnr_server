@@ -30,7 +30,7 @@ class UserController extends BaseController {
      */
     public function actionMe() {
         $model = User::findIdentity(\Yii::$app->user->getId());
-        if ($_SERVER['REQUEST_METHOD'] === self::PUT_METHOD) {
+        if (\Yii::$app->getRequest()->getMethod() === self::PUT_METHOD) {
             $this->_saveModel($model);
         }
         return $model;
