@@ -21,7 +21,7 @@ class TermController extends BaseController {
      * @throws web\ForbiddenHttpException
      */
     public function checkAccess($action, $model = null, $params = []) {
-        if ($action !== self::ACTION_VIEW && $action !== self::ACTION_UPDATE) {
+        if ($model === null) {
             return;
         }
 
