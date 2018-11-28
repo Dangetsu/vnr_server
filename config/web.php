@@ -74,7 +74,7 @@ $config = [
             'rules' => [
                 'GET,PUT v2/users/me' => 'v2/user/me',
 
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v2/user', 'v2/term']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v2/user', 'v2/term', 'v2/game']],
             ],
         ],
     ],
