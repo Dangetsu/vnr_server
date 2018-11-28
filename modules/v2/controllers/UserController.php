@@ -21,15 +21,6 @@ class UserController extends BaseController {
     }
 
     /**
-     * @return array
-     */
-    public function behaviors() {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator']['only'][] = 'me';
-        return $behaviors;
-    }
-
-    /**
      * @return models\User
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
