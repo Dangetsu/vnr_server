@@ -6,9 +6,7 @@
 namespace app\modules\v2\controllers;
 
 class TermController extends BaseController {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $modelClass = 'app\modules\v2\models\Term';
 
 }

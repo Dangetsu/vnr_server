@@ -16,9 +16,7 @@ abstract class BaseController extends rest\ActiveController {
     const PUT_METHOD = 'PUT';
     const FILTER_FIELD = 'filter';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $modelClass;
 
     /**
@@ -26,10 +24,8 @@ abstract class BaseController extends rest\ActiveController {
      */
     public function actions() {
         $actions = parent::actions();
-        $actions['index']['prepareDataProvider'] = function($action) {
-            /**
-             * @var db\ActiveRecord $modelClass
-             */
+        $actions['index']['prepareDataProvider'] = function(rest\Action $action) {
+            /** @var db\ActiveRecord $modelClass */
             $modelClass = $action->modelClass;
             return new ActiveDataProvider([
                 'query' => $modelClass::find()->where($this->_getSearchParams($modelClass)),

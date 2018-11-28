@@ -8,9 +8,7 @@ namespace app\modules\v2\controllers;
 use app\modules\v2\models;
 
 class UserController extends BaseController {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $modelClass = 'app\modules\v2\models\User';
 
     /**
