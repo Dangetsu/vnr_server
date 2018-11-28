@@ -14,7 +14,10 @@ class RbacController extends Controller {
      */
     public function actionInit() {
         $auth = Yii::$app->authManager;
-        $auth->removeAll(); //На всякий случай удаляем старые данные из БД...
+        $auth->removeAll();
+
+        $user = $auth->createRole('user');
+        $auth->add($user);
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);
@@ -25,9 +28,17 @@ class RbacController extends Controller {
         $editTerms = $auth->createPermission('editTerms');
         $auth->add($editTerms);
 
+        $authorRule = new \app\common\rbac\AuthorRule;
+        $auth->add($authorRule);
+        $updateOwnItem = $auth->createPermission('updateOwnItems');
+        $updateOwnItem->ruleName = $authorRule->name;
+        $auth->add($updateOwnItem);
+
+        $auth->addChild($user, $updateOwnItem);
         $auth->addChild($admin, $editComments);
         $auth->addChild($admin, $editTerms);
-        // Назначаем роль admin пользователю с ID 1
+        $auth->addChild($admin, $user);
+
         $auth->assign($admin, 1);
     }
 }

@@ -5,6 +5,7 @@
 
 namespace app\modules\v2\controllers;
 
+use yii\base;
 use yii\data\ActiveDataProvider;
 use yii\filters\auth;
 use yii\rest;
@@ -70,7 +71,7 @@ abstract class BaseController extends rest\ActiveController {
     /**
      * @param db\ActiveRecord $model
      * @param array $params
-     * @throws \yii\base\InvalidConfigException
+     * @throws base\InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
      */
     protected function _saveModel(db\ActiveRecord $model, array $params = []) {
@@ -87,7 +88,7 @@ abstract class BaseController extends rest\ActiveController {
     /**
      * @param string $modelClass
      * @return db\ActiveQuery
-     * @throws \yii\base\InvalidConfigException
+     * @throws base\InvalidConfigException
      */
     protected function _getActiveQuery($modelClass) {
         /** @var db\ActiveRecord $modelClass */
@@ -104,5 +105,20 @@ abstract class BaseController extends rest\ActiveController {
             }
         }
         return $result;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _canUserEditTerms() {
+        return \Yii::$app->user->can('editTerms');
+    }
+
+    /**
+     * @param base\Model $model
+     * @return bool
+     */
+    protected function _isOwnItem(base\Model $model) {
+        return \Yii::$app->user->can('updateOwnItems', $model);
     }
 }

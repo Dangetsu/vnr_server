@@ -14,6 +14,7 @@ $config = [
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user'],
         ],
         'response' => [
             'format' =>  \yii\web\Response::FORMAT_JSON,
