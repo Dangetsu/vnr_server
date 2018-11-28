@@ -20,6 +20,11 @@ abstract class BaseController extends rest\ActiveController {
     /** @var string */
     public $modelClass;
 
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'items',
+    ];
+
     /**
      * @return array
      */
