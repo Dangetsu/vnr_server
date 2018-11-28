@@ -16,11 +16,4 @@ class Term extends Base {
             [['special', 'private', 'hentai', 'regex', 'phrase', 'icase', 'disable', 'deleted'], 'boolean'],
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function fields() {
-        return $this->_convertFieldsToCamelFormat(parent::fields());
-    }
 }

@@ -26,7 +26,7 @@ class User extends Base implements web\IdentityInterface {
     public function fields() {
         $fields = parent::fields();
         unset($fields['password']);
-        return $this->_convertFieldsToCamelFormat($fields);
+        return $fields;
     }
 
     /**
