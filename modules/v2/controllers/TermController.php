@@ -38,9 +38,10 @@ class TermController extends BaseController {
      */
     protected function _getActiveQuery($modelClass) {
         $query = parent::_getActiveQuery($modelClass);
+        /** @var models\Term $modelClass */
+        $query->andWhere([$modelClass::DELETED_LABEL => 0]);
         if (!$this->_canUserEditTerms()) {
             $userId = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 0;
-            /** @var models\Term $modelClass */
             $query->andWhere([
                 'or',
                 $modelClass::USER_ID_LABEL . " = {$userId}",
