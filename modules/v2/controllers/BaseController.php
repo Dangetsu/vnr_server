@@ -18,6 +18,12 @@ abstract class BaseController extends rest\ActiveController {
     const FILTER_FIELD = 'filter';
     const LIMIT_PER_PAGE = 1000;
 
+    const ACTION_INDEX = 'index';
+    const ACTION_VIEW = 'view';
+    const ACTION_CREATE = 'create';
+    const ACTION_UPDATE = 'update';
+    const ACTION_DELETE = 'delete';
+
     /** @var string */
     public $modelClass;
 
@@ -31,7 +37,7 @@ abstract class BaseController extends rest\ActiveController {
      */
     public function actions() {
         $actions = parent::actions();
-        $actions['index']['prepareDataProvider'] = function(rest\Action $action) {
+        $actions[self::ACTION_INDEX]['prepareDataProvider'] = function(rest\Action $action) {
             return new ActiveDataProvider([
                 'query' => $this->_getActiveQuery($action->modelClass),
                 'pagination' => [

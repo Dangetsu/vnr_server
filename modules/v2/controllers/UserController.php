@@ -16,7 +16,7 @@ class UserController extends BaseController {
      */
     public function actions() {
         $actions = parent::actions();
-        unset($actions['delete'], $actions['create'], $actions['update']);
+        unset($actions[self::ACTION_DELETE], $actions[self::ACTION_CREATE], $actions[self::ACTION_UPDATE]);
         return $actions;
     }
 
@@ -41,7 +41,7 @@ class UserController extends BaseController {
     public function actionCreate() {
         $model = new models\User();
         $params = \Yii::$app->getRequest()->getBodyParams();
-        $params['password'] = $this->_generatePasswordHash($params['password']);
+        $params[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($params[$model::PASSWORD_LABEL]);
         $this->_saveModel($model, $params);
         return $model;
     }
