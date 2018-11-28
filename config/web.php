@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'response' => [
             'format' =>  \yii\web\Response::FORMAT_JSON,
             'class' => 'yii\web\Response',
