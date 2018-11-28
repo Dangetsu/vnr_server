@@ -5,6 +5,7 @@
 
 namespace app\modules\v2\controllers;
 
+use yii\data\ActiveDataProvider;
 use yii\filters\auth;
 use yii\rest;
 use app\modules\v2\models;
@@ -13,6 +14,39 @@ use yii\db;
 abstract class BaseController extends rest\ActiveController {
 
     const PUT_METHOD = 'PUT';
+    const FILTER_FIELD = 'filter';
+
+    /**
+     * @var string
+     */
+    public $modelClass;
+
+    /**
+     * @return array
+     */
+    public function actions() {
+        $actions = parent::actions();
+        $actions['index']['prepareDataProvider'] = function($action) {
+            /**
+             * @var \yii\db\ActiveRecord $modelClass
+             */
+            $modelClass = $action->modelClass;
+            $filterParams = array_key_exists(self::FILTER_FIELD, \Yii::$app->request->queryParams) ? \Yii::$app->request->queryParams[self::FILTER_FIELD] : [];
+            $searchParams = [];
+            if (count($filterParams) > 0) {
+                $columnNames = $modelClass::getTableSchema()->getColumnNames();
+                foreach ($filterParams as $key => $value) {
+                    if (array_search($key, $columnNames) !== false) {
+                        $searchParams[$key] = $value;
+                    }
+                }
+            }
+            return new ActiveDataProvider([
+                'query' => $modelClass::find()->where($searchParams),
+            ]);
+        };
+        return $actions;
+    }
 
     /**
      * @return array
