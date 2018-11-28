@@ -16,7 +16,7 @@ class UserController extends BaseController {
      */
     public function actions() {
         $actions = parent::actions();
-        unset($actions['delete'], $actions['create']);
+        unset($actions['delete'], $actions['create'], $actions['update']);
         return $actions;
     }
 
