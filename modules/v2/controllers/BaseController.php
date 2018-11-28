@@ -28,7 +28,7 @@ abstract class BaseController extends rest\ActiveController {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = function($action) {
             /**
-             * @var \yii\db\ActiveRecord $modelClass
+             * @var db\ActiveRecord $modelClass
              */
             $modelClass = $action->modelClass;
             $filterParams = array_key_exists(self::FILTER_FIELD, \Yii::$app->request->queryParams) ? \Yii::$app->request->queryParams[self::FILTER_FIELD] : [];

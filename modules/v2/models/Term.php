@@ -6,7 +6,6 @@
 namespace app\modules\v2\models;
 
 class Term extends Base {
-
     /**
      * @return array
      */
