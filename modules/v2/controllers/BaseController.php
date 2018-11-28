@@ -15,6 +15,7 @@ abstract class BaseController extends rest\ActiveController {
 
     const PUT_METHOD = 'PUT';
     const FILTER_FIELD = 'filter';
+    const LIMIT_PER_PAGE = 1000;
 
     /** @var string */
     public $modelClass;
@@ -29,6 +30,9 @@ abstract class BaseController extends rest\ActiveController {
             $modelClass = $action->modelClass;
             return new ActiveDataProvider([
                 'query' => $modelClass::find()->where($this->_getSearchParams($modelClass)),
+                'pagination' => [
+                    'pageSizeLimit' => [1, self::LIMIT_PER_PAGE]
+                ]
             ]);
         };
         return $actions;
