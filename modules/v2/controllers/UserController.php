@@ -26,7 +26,9 @@ class UserController extends BaseController {
      * @throws \yii\web\ServerErrorHttpException
      */
     public function actionMe() {
-        $model = models\User::findIdentity(\Yii::$app->user->getId());
+        /** @var models\User $modelClass */
+        $modelClass = $this->modelClass;
+        $model = $modelClass::findIdentity(\Yii::$app->user->getId());
         if (\Yii::$app->getRequest()->getMethod() === self::PUT_METHOD) {
             $this->_saveModel($model);
         }
@@ -39,7 +41,7 @@ class UserController extends BaseController {
      * @throws \yii\web\ServerErrorHttpException
      */
     public function actionCreate() {
-        $model = new models\User();
+        $model = new $this->modelClass();
         $params = \Yii::$app->getRequest()->getBodyParams();
         $params[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($params[$model::PASSWORD_LABEL]);
         $this->_saveModel($model, $params);
