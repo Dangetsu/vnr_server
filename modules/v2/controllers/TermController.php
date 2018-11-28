@@ -39,10 +39,11 @@ class TermController extends BaseController {
     protected function _getActiveQuery($modelClass) {
         $query = parent::_getActiveQuery($modelClass);
         if (!$this->_canUserEditTerms()) {
+            $userId = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 0;
             /** @var models\Term $modelClass */
             $query->andWhere([
                 'or',
-                $modelClass::USER_ID_LABEL . " = ".\Yii::$app->user->getId(),
+                $modelClass::USER_ID_LABEL . " = {$userId}",
                 $modelClass::PRIVATE_LABEL . " = 0",
             ]);
         }
