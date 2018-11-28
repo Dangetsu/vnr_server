@@ -31,18 +31,8 @@ abstract class BaseController extends rest\ActiveController {
              * @var db\ActiveRecord $modelClass
              */
             $modelClass = $action->modelClass;
-            $filterParams = array_key_exists(self::FILTER_FIELD, \Yii::$app->request->queryParams) ? \Yii::$app->request->queryParams[self::FILTER_FIELD] : [];
-            $searchParams = [];
-            if (count($filterParams) > 0) {
-                $columnNames = $modelClass::getTableSchema()->getColumnNames();
-                foreach ($filterParams as $key => $value) {
-                    if (array_search($key, $columnNames) !== false) {
-                        $searchParams[$key] = $value;
-                    }
-                }
-            }
             return new ActiveDataProvider([
-                'query' => $modelClass::find()->where($searchParams),
+                'query' => $modelClass::find()->where($this->_getSearchParams($modelClass)),
             ]);
         };
         return $actions;
@@ -89,5 +79,26 @@ abstract class BaseController extends rest\ActiveController {
         if ($isSave === false && !$model->hasErrors()) {
             throw new \yii\web\ServerErrorHttpException('Failed to save the object for unknown reason.');
         }
+    }
+
+    /**
+     * @param string $modelClass
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    private function _getSearchParams($modelClass) {
+        $result = [];
+        $filterParams = \Yii::$app->getRequest()->getQueryParam(self::FILTER_FIELD);
+        if (!is_array($filterParams) || count($filterParams) === 0) {
+            return [];
+        }
+        /** @var db\ActiveRecord $modelClass */
+        $columnNames = $modelClass::getTableSchema()->getColumnNames();
+        foreach ($filterParams as $key => $value) {
+            if (array_search($key, $columnNames) !== false) {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
     }
 }
