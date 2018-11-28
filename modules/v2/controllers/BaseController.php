@@ -31,10 +31,8 @@ abstract class BaseController extends rest\ActiveController {
     public function actions() {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = function(rest\Action $action) {
-            /** @var db\ActiveRecord $modelClass */
-            $modelClass = $action->modelClass;
             return new ActiveDataProvider([
-                'query' => $modelClass::find()->where($this->_getSearchParams($modelClass)),
+                'query' => $this->_getActiveQuery($action->modelClass),
                 'pagination' => [
                     'pageSizeLimit' => [1, self::LIMIT_PER_PAGE]
                 ]
@@ -88,20 +86,21 @@ abstract class BaseController extends rest\ActiveController {
 
     /**
      * @param string $modelClass
-     * @return array
+     * @return db\ActiveQuery
      * @throws \yii\base\InvalidConfigException
      */
-    private function _getSearchParams($modelClass) {
-        $result = [];
+    protected function _getActiveQuery($modelClass) {
+        /** @var db\ActiveRecord $modelClass */
+        $result = $modelClass::find();
         $filterParams = \Yii::$app->getRequest()->getQueryParam(self::FILTER_FIELD);
         if (!is_array($filterParams) || count($filterParams) === 0) {
-            return [];
+            return $result;
         }
-        /** @var db\ActiveRecord $modelClass */
+
         $columnNames = $modelClass::getTableSchema()->getColumnNames();
         foreach ($filterParams as $key => $value) {
             if (array_search($key, $columnNames) !== false) {
-                $result[$key] = $value;
+                $result->andWhere([$key => $value]);
             }
         }
         return $result;
