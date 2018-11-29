@@ -50,6 +50,7 @@ class UserController extends BaseController {
      * @throws \yii\web\ServerErrorHttpException
      */
     public function actionCreate() {
+        /** @var models\User $model */
         $model = new $this->modelClass();
         $params = \Yii::$app->getRequest()->getBodyParams();
         $params[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($params[$model::PASSWORD_LABEL]);
