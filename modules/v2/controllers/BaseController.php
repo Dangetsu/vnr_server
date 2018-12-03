@@ -121,6 +121,13 @@ abstract class BaseController extends rest\ActiveController {
     }
 
     /**
+     * @return bool
+     */
+    protected function _canUserEditComments() {
+        return \Yii::$app->user->can('editComments');
+    }
+
+    /**
      * @param base\Model $model
      * @return bool
      */
