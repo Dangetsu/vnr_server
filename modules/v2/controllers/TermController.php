@@ -25,39 +25,6 @@ class TermController extends BaseController {
     }
 
     /**
-     * @return models\Term
-     * @throws base\InvalidConfigException
-     * @throws web\ServerErrorHttpException
-     */
-    public function actionCreate() {
-        /** @var models\Term $model */
-        $model = new $this->modelClass();
-        $params = \Yii::$app->getRequest()->getBodyParams();
-        $params[$model::USER_ID_LABEL] = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 'NULL';
-        $params[$model::TIMESTAMP_LABEL] = (new \DateTime())->getTimestamp();
-        $this->_saveModel($model, $params);
-        return $model;
-    }
-
-    /**
-     * @param int $id
-     * @return models\Term
-     * @throws base\InvalidConfigException
-     * @throws web\ServerErrorHttpException
-     */
-    public function actionUpdate($id) {
-        /** @var models\Term $modelClass */
-        $modelClass = $this->modelClass;
-        $model = $modelClass::findOne(['id' => $id]);
-        $params = \Yii::$app->getRequest()->getBodyParams();
-        $params[$model::UPDATE_USER_ID_LABEL] = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 'NULL';
-        $params[$model::UPDATE_TIMESTAMP_LABEL] = (new \DateTime())->getTimestamp();
-        unset($params[$model::USER_ID_LABEL], $params[$model::TIMESTAMP_LABEL]);
-        $this->_saveModel($model, $params);
-        return $model;
-    }
-
-    /**
      * @param int $id
      * @return models\Term
      * @throws base\InvalidConfigException
@@ -106,5 +73,32 @@ class TermController extends BaseController {
             ]);
         }
         return $query;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    protected function _prepareParamsForCreateItem(array $params = []) {
+        $result = parent::_prepareParamsForCreateItem($params);
+        /** @var models\Term $model */
+        $model = new $this->modelClass();
+        $result[$model::USER_ID_LABEL] = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 'NULL';
+        $result[$model::TIMESTAMP_LABEL] = (new \DateTime())->getTimestamp();
+        return $result;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    protected function _prepareParamsForUpdateItem(array $params = []) {
+        $result = parent::_prepareParamsForUpdateItem($params);
+        /** @var models\Term $model */
+        $model = new $this->modelClass();
+        $result[$model::UPDATE_USER_ID_LABEL] = \Yii::$app->user->getId() !== null ? \Yii::$app->user->getId() : 'NULL';
+        $result[$model::UPDATE_TIMESTAMP_LABEL] = (new \DateTime())->getTimestamp();
+        unset($result[$model::USER_ID_LABEL], $result[$model::TIMESTAMP_LABEL]);
+        return $result;
     }
 }

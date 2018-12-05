@@ -11,6 +11,7 @@ use yii\filters\auth;
 use yii\rest;
 use app\modules\v2\models;
 use yii\db;
+use yii\web;
 
 abstract class BaseController extends rest\ActiveController {
 
@@ -27,6 +28,7 @@ abstract class BaseController extends rest\ActiveController {
     /** @var string */
     public $modelClass;
 
+    /** @var array */
     public $serializer = [
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'items',
@@ -45,6 +47,7 @@ abstract class BaseController extends rest\ActiveController {
                 ]
             ]);
         };
+        unset($actions[self::ACTION_DELETE], $actions[self::ACTION_CREATE], $actions[self::ACTION_UPDATE]);
         return $actions;
     }
 
@@ -64,6 +67,50 @@ abstract class BaseController extends rest\ActiveController {
             },
         ];
         return $behaviors;
+    }
+
+    /**
+     * @return db\ActiveRecord
+     * @throws base\InvalidConfigException
+     * @throws web\ServerErrorHttpException
+     */
+    public function actionCreate() {
+        /** @var db\ActiveRecord $model */
+        $model = new $this->modelClass();
+        $params = \Yii::$app->getRequest()->getBodyParams();
+        $this->_saveModel($model, $this->_prepareParamsForCreateItem($params));
+        return $model;
+    }
+
+    /**
+     * @param int $id
+     * @return db\ActiveRecord
+     * @throws base\InvalidConfigException
+     * @throws web\ServerErrorHttpException
+     */
+    public function actionUpdate($id) {
+        /** @var db\ActiveRecord $modelClass */
+        $modelClass = $this->modelClass;
+        $model = $modelClass::findOne(['id' => $id]);
+        $params = \Yii::$app->getRequest()->getBodyParams();
+        $this->_saveModel($model, $this->_prepareParamsForUpdateItem($params));
+        return $model;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    protected function _prepareParamsForCreateItem(array $params = []) {
+        return $params;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    protected function _prepareParamsForUpdateItem(array $params = []) {
+        return $params;
     }
 
     /**
