@@ -45,16 +45,14 @@ class UserController extends BaseController {
     }
 
     /**
-     * @return \yii\db\ActiveRecord
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\ServerErrorHttpException
+     * @param array $params
+     * @return array
      */
-    public function actionCreate() {
+    protected function _prepareParamsForCreateItem(array $params = []) {
+        $result = parent::_prepareParamsForCreateItem($params);
         /** @var models\User $model */
         $model = new $this->modelClass();
-        $params = \Yii::$app->getRequest()->getBodyParams();
-        $params[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($params[$model::PASSWORD_LABEL]);
-        $this->_saveModel($model, $params);
-        return $model;
+        $result[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($result[$model::PASSWORD_LABEL]);
+        return $result;
     }
 }
