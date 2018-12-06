@@ -14,15 +14,6 @@ class UserController extends BaseController {
     /**
      * @return array
      */
-    public function actions() {
-        $actions = parent::actions();
-        unset($actions[self::ACTION_DELETE], $actions[self::ACTION_CREATE], $actions[self::ACTION_UPDATE]);
-        return $actions;
-    }
-
-    /**
-     * @return array
-     */
     public function behaviors() {
         $behaviors = parent::behaviors();
         $behaviors['authenticator']['optional'][] = self::ACTION_CREATE;

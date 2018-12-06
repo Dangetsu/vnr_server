@@ -15,15 +15,6 @@ class TermController extends BaseController {
     public $modelClass = 'app\modules\v2\models\Term';
 
     /**
-     * @return array
-     */
-    public function actions() {
-        $actions = parent::actions();
-        unset($actions[self::ACTION_DELETE], $actions[self::ACTION_CREATE], $actions[self::ACTION_UPDATE]);
-        return $actions;
-    }
-
-    /**
      * @param int $id
      * @return models\Term
      * @throws base\InvalidConfigException
