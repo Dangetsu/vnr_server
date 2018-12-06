@@ -125,7 +125,7 @@ abstract class BaseController extends rest\ActiveController {
      * @param db\ActiveRecord $model
      * @param array $params
      * @throws base\InvalidConfigException
-     * @throws \yii\web\ServerErrorHttpException
+     * @throws web\ServerErrorHttpException
      */
     protected function _saveModel(db\ActiveRecord $model, array $params = []) {
         if (count($params) === 0) {
@@ -134,7 +134,7 @@ abstract class BaseController extends rest\ActiveController {
         $model->load($params, '');
         $isSave = $model->save();
         if ($isSave === false && !$model->hasErrors()) {
-            throw new \yii\web\ServerErrorHttpException('Failed to save the object for unknown reason.');
+            throw new web\ServerErrorHttpException('Failed to save the object for unknown reason.');
         }
     }
 

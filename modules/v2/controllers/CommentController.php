@@ -9,7 +9,6 @@ use app\modules\v2\models;
 use yii\web;
 use yii\base;
 
-// todo: fix DRY
 class CommentController extends BaseController {
     /** @var string */
     public $modelClass = 'app\modules\v2\models\Comment';
