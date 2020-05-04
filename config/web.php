@@ -18,13 +18,10 @@ $config = [
         ],
         'response' => [
             'format' =>  \yii\web\Response::FORMAT_JSON,
-            'class' => 'yii\web\Response',
-            'on beforeSend' => function ($event) {
+            'class' => 'app\modules\v2\CustomResponse',
+            'on beforeSend' => function (yii\base\Event $event) {
                 $response = $event->sender;
-                $response->data = [
-                    'success' => $response->isSuccessful,
-                    'data' => $response->data,
-                ];
+                $response->data['success'] = $response->isSuccessful;
             },
         ],
         'request' => [

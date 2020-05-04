@@ -8,27 +8,27 @@ namespace app\modules\v2\models;
 use yii\web;
 
 class User extends Base implements web\IdentityInterface {
-    const PASSWORD_LABEL = 'password';
+
+    const PARAMETER_ID       = 'id';
+    const PARAMETER_PASSWORD = 'password';
 
     /**
      * @return array
      */
     public function rules() {
         return [
-            [['name', self::PASSWORD_LABEL, 'email'], 'required'],
+            [['name', self::PARAMETER_PASSWORD, 'email'], 'required'],
             ['email', 'email'],
             [['name', 'password', 'photo', 'gender', 'language', 'homepage', 'color', 'last_date', 'reg_date'], 'string'],
             ['is_banned', 'boolean'],
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function fields() {
-        $fields = parent::fields();
-        unset($fields[self::PASSWORD_LABEL]);
-        return $fields;
+    public function toArray(array $fields = [], array $expand = [], $recursive = true) {
+        $response = parent::toArray($fields, $expand, $recursive);
+        $response['@attributes'] = ['id' => $response[self::PARAMETER_ID]];
+        unset($response[self::PARAMETER_ID], $response[self::PARAMETER_PASSWORD]);
+        return $response;
     }
 
     /**

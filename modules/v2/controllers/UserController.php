@@ -8,8 +8,15 @@ namespace app\modules\v2\controllers;
 use app\modules\v2\models;
 
 class UserController extends BaseController {
+
     /** @var string */
     public $modelClass = 'app\modules\v2\models\User';
+
+    /** @var array */
+    public $serializer = [
+        'class'              => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'users',
+    ];
 
     /**
      * @return array
@@ -43,7 +50,7 @@ class UserController extends BaseController {
         $result = parent::_prepareParamsForCreateItem($params);
         /** @var models\User $model */
         $model = new $this->modelClass();
-        $result[$model::PASSWORD_LABEL] = $this->_generatePasswordHash($result[$model::PASSWORD_LABEL]);
+        $result[$model::PARAMETER_PASSWORD] = $this->_generatePasswordHash($result[$model::PARAMETER_PASSWORD]);
         return $result;
     }
 }
